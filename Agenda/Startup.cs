@@ -1,5 +1,7 @@
+using Agenda.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,6 +25,7 @@ namespace Agenda
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddDbContext<AgendaContext>(opciones => opciones.UseSqlServer(Configuration.GetConnectionString("AgendaContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

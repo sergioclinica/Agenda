@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Agenda.Models.Especialidad>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Especialoidades</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th> @Html.DisplayNameFor(model => model.Descripcion) </th>
+            </tr>
+        </thead>
+        <tbody>
+            @* Aquí colocaremos los datos a mostrar **@
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td> @Html.DisplayFor(modelItem => item.Descripcion) </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>
