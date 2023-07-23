@@ -39,7 +39,7 @@ namespace Agenda.Models
             return View();
         }
 
-        [HttpPatch]
+        [HttpPost]
         [ValidateAntiForgeryToken] // Gatantiza que el método se ejecute desde el formulario de la palicación
         public async Task<IActionResult> Create([Bind("IdPaciente, Nombre, Apellido, Direccion, Telefono, Email")] Paciente paciente)
         {
@@ -81,7 +81,7 @@ namespace Agenda.Models
             {
                 _context.Update(paciente);
                 await _context.SaveChangesAsync();
-                RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
             }
 
             return View(paciente);
@@ -104,14 +104,14 @@ namespace Agenda.Models
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirm(int? id)
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             if (id == null)
             {
                 return NotFound();  
             }
 
-            var paciente = _context.Paciente.FindAsync(id);
+            var paciente = await _context.Paciente.FindAsync(id);
             if(paciente == null)
             {
                 return NotFound();
