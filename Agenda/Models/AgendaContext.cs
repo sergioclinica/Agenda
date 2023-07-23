@@ -29,6 +29,36 @@ namespace Agenda.Models
                     .HasMaxLength(200)
                     .IsUnicode(false);
             });
+
+            modelBuilder.Entity<Paciente>(entidad => {
+                entidad.ToTable("Paciente");
+                entidad.HasKey(p => p.IdPaciente);
+
+                entidad.Property(p => p.Nombre)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+                entidad.Property(p => p.Apellido)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+                entidad.Property(p => p.Direccion)
+                .IsRequired()
+                .HasMaxLength(250)
+                .IsUnicode(false);
+
+                entidad.Property(p => p.Telefono)
+                .IsRequired()
+                .HasMaxLength(20)
+                .IsUnicode(false);
+
+                entidad.Property(p => p.Email)
+                .IsRequired()
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            });
         }
     }
 }
