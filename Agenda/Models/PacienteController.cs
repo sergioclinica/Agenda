@@ -52,5 +52,75 @@ namespace Agenda.Models
 
             return View(paciente);
         }
+
+        public async Task<IActionResult> Edit(int? id) { 
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var paciente = await _context.Paciente.FindAsync(id);
+
+            if(paciente == null) {
+                return NotFound();
+            }
+
+            return View(paciente);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("IdPaciente, Nombre, Apellido, Direccion, Telefono, Email")] Paciente paciente)
+        {
+            if (id != paciente.IdPaciente)
+            {
+                return NotFound();
+            }
+
+            if(ModelState.IsValid)
+            {
+                _context.Update(paciente);
+                await _context.SaveChangesAsync();
+                RedirectToAction(nameof(Index));
+            }
+
+            return View(paciente);
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null) { 
+                return NotFound();
+            }
+
+            var paciente = await _context.Paciente.FirstOrDefaultAsync(p => p.IdPaciente == id);
+            if(paciente == null)
+            {
+                return NotFound();
+            }
+
+            return View(paciente);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirm(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();  
+            }
+
+            var paciente = _context.Paciente.FindAsync(id);
+            if(paciente == null)
+            {
+                return NotFound();
+            }
+
+            _context.Remove(paciente);  // _context.Paciente.Remove(paciente);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
