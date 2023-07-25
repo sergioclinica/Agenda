@@ -19,12 +19,13 @@ namespace Agenda.Models
 
         public DbSet<Especialidad> Especialidad { get; set; }
         public DbSet<Paciente> Paciente { get; set; }
-
         public DbSet<Medico> Medico { get; set; }
+        public DbSet<MedicoEspecialidad> MedicoEspecialidad { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Especialidad>(entidad => {
+            modelBuilder.Entity<Especialidad>(entidad =>
+            {
                 entidad.ToTable("Especialidad"); // Es el nombre ara la tabla, pero se puede modificar
                 entidad.HasKey(e => e.IdEspecialidad);  // se especifica como clave primaria
                 entidad.Property(e => e.Descripcion)  // se agrega el nuevo campo Descripcion
@@ -33,7 +34,8 @@ namespace Agenda.Models
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<Paciente>(entidad => {
+            modelBuilder.Entity<Paciente>(entidad =>
+            {
                 entidad.ToTable("Paciente");
                 entidad.HasKey(p => p.IdPaciente);
 
@@ -101,8 +103,21 @@ namespace Agenda.Models
                 .IsRequired()
                 .IsUnicode(false);
             });
-        }
 
-        //public DbSet<Medico> Medico { get; set; }
+            // Se define un Indice Compuesto
+            modelBuilder.Entity<MedicoEspecialidad>().HasKey(x => new { x.IdMedico, x.IdEspecialidad });
+
+            // Se define la relación Uno (Medico) a Muchos (Especialidad)
+            modelBuilder.Entity<MedicoEspecialidad>().HasOne(x => x.Medico)
+                .WithMany(p => p.MedicoEspecialidad) //
+                .HasForeignKey(p => p.IdMedico);
+
+            // Se establece la realación entre MedicoEspecialida y Especialidad
+            modelBuilder.Entity<MedicoEspecialidad>().HasOne(x => x.Especialidad)
+                .WithMany(p => p.MedicoEspecialidad) //
+                .HasForeignKey(p => p.IdEspecialidad);
+
+
+        }
     }
 }

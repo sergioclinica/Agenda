@@ -39,7 +39,7 @@ namespace Agenda.Migrations
 
             modelBuilder.Entity("Agenda.Models.Medico", b =>
                 {
-                    b.Property<int>("IdPaciente")
+                    b.Property<int>("IdMedico")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -82,9 +82,24 @@ namespace Agenda.Migrations
                         .HasMaxLength(20)
                         .IsUnicode(false);
 
-                    b.HasKey("IdPaciente");
+                    b.HasKey("IdMedico");
 
                     b.ToTable("Medico");
+                });
+
+            modelBuilder.Entity("Agenda.Models.MedicoEspecialidad", b =>
+                {
+                    b.Property<int>("IdMedico")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdEspecialidad")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdMedico", "IdEspecialidad");
+
+                    b.HasIndex("IdEspecialidad");
+
+                    b.ToTable("MedicoEspecialidad");
                 });
 
             modelBuilder.Entity("Agenda.Models.Paciente", b =>
@@ -127,6 +142,21 @@ namespace Agenda.Migrations
                     b.HasKey("IdPaciente");
 
                     b.ToTable("Paciente");
+                });
+
+            modelBuilder.Entity("Agenda.Models.MedicoEspecialidad", b =>
+                {
+                    b.HasOne("Agenda.Models.Especialidad", "Especialidad")
+                        .WithMany("MedicoEspecialidad")
+                        .HasForeignKey("IdEspecialidad")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Agenda.Models.Medico", "Medico")
+                        .WithMany("MedicoEspecialidad")
+                        .HasForeignKey("IdMedico")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
