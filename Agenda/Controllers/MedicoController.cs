@@ -80,11 +80,14 @@ namespace Agenda.Controllers
                 return NotFound();
             }
 
-            var medico = await _context.Medico.FindAsync(id);
+            var medico = await _context.Medico.Where(m => m.IdMedico == id)
+                                .Include(me => me.MedicoEspecialidad).FirstOrDefaultAsync();
             if (medico == null)
             {
                 return NotFound();
             }
+
+            ViewData["ListaEspecialidades"] = new SelectList(_context.Especialidad, "IdEspecialidad" , "Descripcion", medico.MedicoEspecialidad[0].IdEspecialidad);
             return View(medico);
         }
 
@@ -93,7 +96,7 @@ namespace Agenda.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdMedico,Nombre,Apellido,Direccion,Telefono,Email,HorarioAtencionDesde,HorarioAtencionHasta")] Medico medico)
+        public async Task<IActionResult> Edit(int id, [Bind("IdMedico,Nombre,Apellido,Direccion,Telefono,Email,HorarioAtencionDesde,HorarioAtencionHasta")] Medico medico, int IdEspecialidad)
         {
             if (id != medico.IdMedico)
             {
@@ -105,6 +108,13 @@ namespace Agenda.Controllers
                 try
                 {
                     _context.Update(medico);
+                    await _context.SaveChangesAsync();
+
+                    var medicoEspecialidad = await _context.MedicoEspecialidad.FirstOrDefaultAsync(me => me.IdMedico == id);
+                    _context.Remove(medicoEspecialidad);
+                    await _context.SaveChangesAsync();
+                    medicoEspecialidad.IdEspecialidad = IdEspecialidad; // Se asigna la nueva Especialidad
+                    _context.Add(medicoEspecialidad);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
