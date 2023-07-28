@@ -58,5 +58,32 @@ namespace Agenda.Controllers
 
             return Json(jsonResult);
         }
+
+        [HttpPost]
+        public JsonResult EliminarTurno(int idTurno)
+        {
+            var ok = false;
+
+            try
+            {
+                var turnoAEliminar = _context.Turno.Where(t => t.IdTurno == idTurno).FirstOrDefault();
+                if(turnoAEliminar != null)
+                {
+                    _context.Turno.Remove(turnoAEliminar);
+                    _context.SaveChanges();
+                    ok = true;
+                }
+
+                
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Excepción encontrada", e);
+                //throw;
+            }
+            var jsonResult = new { ok = ok };
+
+            return Json(jsonResult);
+        }
     }
 }
