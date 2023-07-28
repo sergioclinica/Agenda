@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Agenda.Controllers
@@ -26,6 +28,35 @@ namespace Agenda.Controllers
                                                    select new { IdPaciente = paciente.IdPaciente, NombreCompleto = paciente.Nombre + " " + 
                                                    paciente.Apellido }), "IdPaciente", "NombreCompleto");
             return View();
+        }
+
+        public JsonResult ObtenerTurnos(int IdMedico)
+        {
+            List<Turno> turnos = new List<Turno>();
+            turnos = _context.Turno.Where(t => t.IdMedico == IdMedico).ToList();
+
+            return Json(turnos);
+        }
+
+        [HttpPost]
+        public JsonResult GrabarTurno(Turno turno)
+        {
+            var ok = false;
+
+            try
+            {
+                _context.Turno.Add(turno);
+                _context.SaveChanges();
+                ok = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Excepción encontrada", e);
+                //throw;
+            }
+            var jsonResult = new { ok = ok };
+
+            return Json(jsonResult);
         }
     }
 }
