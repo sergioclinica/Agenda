@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Agenda.Models
@@ -29,5 +30,7 @@ namespace Agenda.Models
         [EmailAddress]
         [StringLength(50, ErrorMessage = "La longitud máximas es de 100 caracterres")]
         public string Email { get; set; }
+
+        public List<Turno> Turno { get; set; }
     }
 }
