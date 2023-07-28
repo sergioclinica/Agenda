@@ -1,13 +1,16 @@
 ﻿@model IEnumerable<Agenda.Models.Especialidad>
 
+<h4>Especialidad</h4>
+
 <p>
-    <a asp-action="Create">Create</a>
+    <a asp-action="Create" class="btn-floating btn-large green darken-3"><i class="material-icons">person_add</i></a>
 </p>
 
-<table>
-    <thead>
+<table class="responsive-table highlight z-depth-3 orange lighten-5">
+    <thead class="orange darken-1 white-text">
         <tr>
             <th> @Html.DisplayNameFor(model => model.Descripcion) </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -16,8 +19,10 @@
         {
             <tr>
                 <td> @Html.DisplayFor(modelItem => item.Descripcion) </td>
-                <td> <a asp-action="Edit" asp-route-id="@item.IdEspecialidad">Editar</a> </td>
-                <td> <a asp-action="Delete" asp-route-id="@item.IdEspecialidad">Eliminar</a> </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdEspecialidad"><i class="material-icons">edit</i></a>
+                    <a asp-action="Delete" asp-route-id="@item.IdEspecialidad"><i class="material-icons red-text">delete</i></a>
+                </td>
             </tr>
         }
     </tbody>
