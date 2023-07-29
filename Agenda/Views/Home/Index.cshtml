@@ -47,10 +47,25 @@
             </div>
             <div class="card-content">
                 <span class="card-title">Pecientes:</span>
-                <p>Aqí podras dar de alta los nuevos Pacientes, modicar sus datos o borralos de la base de datos</p>
+                <p>Aquí podras dar de alta los nuevos Pacientes, modicar sus datos o borralos de la base de datos</p>
             </div>
             <div class="card-action blue-grey darken-3">
                 <a asp-controller="Paciente" asp-action="Index">Ver más</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col s12 m4">
+        <div class="card">
+            <div class="card-image center brown accent-4">
+                <i class="material-icons large white-text">access_time</i>
+            </div>
+            <div class="card-content">
+                <span class="card-title">Turnos:</span>
+                <p>Aquí podras dar de alta los nuevos Turnos para un Paciente asignadole un medico en particular</p>
+            </div>
+            <div class="card-action blue-grey darken-3">
+                <a asp-controller="Turno" asp-action="Index">Asignar turno</a>
             </div>
         </div>
     </div>
