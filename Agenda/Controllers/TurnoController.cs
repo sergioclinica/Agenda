@@ -24,7 +24,7 @@ namespace Agenda.Controllers
             ViewData["IdMedico"] = new SelectList((from medico in _context.Medico.ToList() 
                                                    select new { IdMedico = medico.IdMedico, NombreCompleto = medico.Nombre + " " + 
                                                    medico.Apellido }), "IdMedico", "NombreCompleto");
-            ViewData["IdPeciente"] = new SelectList((from paciente in _context.Paciente.ToList()
+            ViewData["IdPaciente"] = new SelectList((from paciente in _context.Paciente.ToList()
                                                    select new { IdPaciente = paciente.IdPaciente, NombreCompleto = paciente.Nombre + " " + 
                                                    paciente.Apellido }), "IdPaciente", "NombreCompleto");
             return View();
