@@ -27,6 +27,9 @@
 
     <script>
         $(document).ready(function () {
+            var horarioDesde = "";
+            var horarioHasta = "";
+
             $('#CalendarioTurnos').fullCalendar({
                 contentHeight: 'auto',
                 defaultDate: new Date(), // es la fecha que va sobre el calendario
@@ -42,6 +45,13 @@
                 allDaySlot: false,
                 selctable: true,
                 eventLimit: true, // por ejemplo tiempo máximo por evento 30 min
+
+                // Video "14. Funciones AJAX horarios de atención PARTE 1"
+                //minTime: horarioDesde, // ejem '09:00',
+                //maxTime: horarioHasta, // ejem'20:00',
+                minTime: '09:00',
+                maxTime: '20:00',
+                hiddenDays: [0, 6], // esconde el 0=Domingo y 6=Sabado
             });
         });
     </script>
