@@ -28,7 +28,20 @@
     <script>
         $(document).ready(function () {
             $('#CalendarioTurnos').fullCalendar({
-
+                contentHeight: 'auto',
+                defaultDate: new Date(), // es la fecha que va sobre el calendario
+                slotLabelFormat: 'HH:mm',
+                defaultView: 'agendaWeek', // 'agendaDay'
+                header: {
+                    left: 'prev,next today',
+                    right: 'month,agendaWeek,agendaDay',
+                    center: 'title', // despliega el titulo con la fecha al centro sobre el calendario
+                },
+                slotDuration: '00:30',
+                nowIndicator: true,
+                allDaySlot: false,
+                selctable: true,
+                eventLimit: true, // por ejemplo tiempo máximo por evento 30 min
             });
         });
     </script>
