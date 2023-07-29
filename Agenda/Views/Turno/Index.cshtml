@@ -30,6 +30,32 @@
             var horarioDesde = "";
             var horarioHasta = "";
 
+            $.ajax({
+                type: "get",
+                url: "Medico/TraerHorarioAtencionDesde",
+                data: { "IdMedico": $("#IdMedico").val() },
+                async: false,
+                success: function(resultado){
+                    horarioDesde = resultado;
+                },
+                error: function(){
+                    alert("Error al traer los datos de TraerHorarioAtencionDesde");
+                }
+            });
+
+            $.ajax({
+                type: "get",
+                url: "Medico/TraerHorarioAtencionHasta",
+                data: { "IdMedico": $("#IdMedico").val() },
+                async: false,
+                success: function (resultado) {
+                    horarioHasta = resultado;
+                },
+                error: function () {
+                    alert("Error al traer los datos de TraerHorarioAtencionHasta");
+                }
+            });
+
             $('#CalendarioTurnos').fullCalendar({
                 contentHeight: 'auto',
                 defaultDate: new Date(), // es la fecha que va sobre el calendario
@@ -47,10 +73,10 @@
                 eventLimit: true, // por ejemplo tiempo máximo por evento 30 min
 
                 // Video "14. Funciones AJAX horarios de atención PARTE 1"
-                //minTime: horarioDesde, // ejem '09:00',
-                //maxTime: horarioHasta, // ejem'20:00',
-                minTime: '09:00',
-                maxTime: '20:00',
+                minTime: horarioDesde, // ejem '09:00',
+                maxTime: horarioHasta, // ejem'20:00',
+                //minTime: '09:00',
+                //xTime: '20:00',
                 hiddenDays: [0, 6], // esconde el 0=Domingo y 6=Sabado
             });
         });
