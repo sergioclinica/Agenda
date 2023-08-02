@@ -33,6 +33,10 @@
 
             ObtenerTurnosYActualizar($('#IdMedico').val());
 
+            $('#IdMedico').change(function(){
+                ObtenerTurnosYActualizar(this.value);
+            });
+
             function ObtenerTurnosYActualizar(idMedico){
                 turnos = [];
                 $.ajax({
