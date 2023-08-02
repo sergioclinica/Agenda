@@ -29,6 +29,34 @@
         $(document).ready(function () {
             var horarioDesde = "";
             var horarioHasta = "";
+            var turnos = [];
+
+            ObtenerTurnosYActualizar($('#IdMedico').val());
+
+            function ObtenerTurnosYActualizar(idMedico){
+                turnos = [];
+                $.ajax({
+                    type: 'GET',
+                    url: 'Turno/ObtenerTurnos',
+                    data: { 'IdMedico': idMedico },
+                    success: function(datos){
+                        $.each(datos, function(i, v){
+                            // Poner la letra inicial en minusculas, porque JavaScript la cambia de mauyuscula a minuscula
+                            turnos.push({
+                                idTurno: v.idTurno,
+                                idPaciente: v.idPaciente,
+                                idMedico: v.idMedico,
+                                start: moment(v.fechaHoraInicio),
+                                end: v.fechaHoraFin != null ? moment(v.fechaHoraFin) : null
+                            });
+                        });
+                        GenerarCalendario(turnos);
+                    },
+                    error: function(){
+                        alert('Error al obtener turnos');
+                    }
+                });
+            }
 
             function GenerarCalendario(turnos){
                 $.ajax({
@@ -80,7 +108,8 @@
                     maxTime: horarioHasta, // ejem'20:00',
                     //minTime: '09:00',
                     //xTime: '20:00',
-                    hiddenDays: [0, 6], // esconde el 0=Domingo y 6=Sabado
+                    //hiddenDays: [0, 6], // esconde el 0=Domingo y 6=Sabado
+                    events: turnos,
                 });
             }
 
