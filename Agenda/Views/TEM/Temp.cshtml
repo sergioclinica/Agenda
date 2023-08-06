@@ -1,5 +1,5 @@
 ﻿@model Agenda.Models.Turno
-@* ----- Código básico funciondo con al version fullcalendar 3.10.0 ----- *@
+@* ----- Copia del código ya corregido -----*@
 @{
     ViewBag.Title = "Asignación de Turnos";
 }
@@ -18,7 +18,7 @@
 
 <div id="ModalTurno" class="modal">
     <div class="modal-content">
-        <h4>Turno</h4>
+        <h4>Tursno</h4>
         <form>
             <div>
                 <label>Inicio</label>
@@ -32,8 +32,8 @@
     </div>
     <div class="modal-footer">
         <a href="#" id="btnEliminar" class="modal-close waves-effect waves-red btn-flat">Eliminar</a>
-        <a href="#" id="btnGuardar" class="modal-close waves-effect waves-green btn-flat">Guardar</a>
-        <a href="#" id="btncerar" class="modal-close waves-effect waves-grey btn-flat">Cerrar</a>
+        <a href="#" id="btnGuardar" class="modal-close waves-effect waves-green btn-flat">Gaurdar</a>
+        <a href="#" id="btncerar" class="modal-close waves-effect waves-grey btn-flat">Cerar</a>
     </div>
 </div>
 
@@ -138,14 +138,8 @@
                     //xTime: '20:00',
                     //hiddenDays: [0, 6], // esconde el 0=Domingo y 6=Sabado
                     events: turnos,
-                    select: function (fechaHoraInicio, fechaHoraFin) {
-                        alert(fechaHoraInicio.format('DD/MM/YYYY HH:mm') + ' - ' + fechaHoraFin.format('DD/MM/YYYY HH:mm'));
-                        turnoSeleccionado = {
-                            idTurno: 0,  // IdTirno es Identiry, sio idTurno es 0 es alta
-                            start: fechaHoraInicio,
-                            end: fechaHoraFin
-                        };
-                        AbrirPopup();
+                    select: function (a, b) {
+                        alert(a.format('DD/MM/YYYY HH:mm') + ' - ' + b.format('DD/MM/YYYY HH:mm'));
                     },
                     /*dayClick: function (fechaHoraInicio, fechaHoraFin) {  // se activa cuando se da click sobre una cenlda que NO tenga evento creado
                         turnoSeleccionado = {
@@ -163,7 +157,16 @@
                 })
             }
             function AbrirPopup() {
-                alert('Dentro de la función AbrirPopup()');
+                $('#txtFechaHoraInicio').val(turnoSeleccionado.start.format('DD/MM/YYYY HH:mm'));
+                //$('#txtFechaHoraFin').val(turnoSeleccionado.end.format('DD/MM/YYYY HH:mm'));
+                if (turnoSeleccionado.idTurno === 0) {
+                    $('btnGuardar').show();
+                    $('btnEliminar').hide();
+                } else {
+                    $('btnGuardar').hide();
+                    $('btnEliminar').show();
+                }
+                $('#ModalTurno').modal('open');
             }
 
         });

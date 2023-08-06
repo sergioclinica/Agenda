@@ -18,7 +18,7 @@
 
 <div id="ModalTurno" class="modal">
     <div class="modal-content">
-        <h4>Turno</h4>
+        <h4>Tursno</h4>
         <form>
             <div>
                 <label>Inicio</label>
@@ -32,8 +32,8 @@
     </div>
     <div class="modal-footer">
         <a href="#" id="btnEliminar" class="modal-close waves-effect waves-red btn-flat">Eliminar</a>
-        <a href="#" id="btnGuardar" class="modal-close waves-effect waves-green btn-flat">Guardar</a>
-        <a href="#" id="btncerar" class="modal-close waves-effect waves-grey btn-flat">Cerrar</a>
+        <a href="#" id="btnGuardar" class="modal-close waves-effect waves-green btn-flat">Gaurdar</a>
+        <a href="#" id="btncerar" class="modal-close waves-effect waves-grey btn-flat">Cerar</a>
     </div>
 </div>
 
@@ -116,54 +116,56 @@
                 $('#CalendarioTurnos').fullCalendar('destroy'); // se "reinicializa"
 
                 $('#CalendarioTurnos').fullCalendar({
-                    contentHeight: 'auto',
-                    defaultDate: new Date(), // es la fecha que va sobre el calendario
-                    slotLabelFormat: 'HH:mm',
-                    defaultView: 'agendaWeek', // 'agendaDay'
                     header: {
                         left: 'prev,next today',
-                        right: 'month,agendaWeek,agendaDay',
-                        center: 'title', // despliega el titulo con la fecha al centro sobre el calendario
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay,listWeek'
+                    },
+                    selectable: true,
+                    select: function (a, b) {
+                        alert(a.format('DD/MM/YYYY HH:mm') + ' - ' + b.format('DD/MM/YYYY HH:mm'));
                     },
                     slotDuration: '00:30',
-                    nowIndicator: true,
-                    allDaySlot: false,
-                    selectable: true,
-                    eventLimit: true, // por ejemplo tiempo máximo por evento 30 min
-
-                    // Video "14. Funciones AJAX horarios de atención PARTE 1"
-                    minTime: horarioDesde, // ejem '09:00',
-                    maxTime: horarioHasta, // ejem'20:00',
-                    //minTime: '09:00',
-                    //xTime: '20:00',
-                    //hiddenDays: [0, 6], // esconde el 0=Domingo y 6=Sabado
-                    events: turnos,
-                    select: function (fechaHoraInicio, fechaHoraFin) {
-                        alert(fechaHoraInicio.format('DD/MM/YYYY HH:mm') + ' - ' + fechaHoraFin.format('DD/MM/YYYY HH:mm'));
-                        turnoSeleccionado = {
-                            idTurno: 0,  // IdTirno es Identiry, sio idTurno es 0 es alta
-                            start: fechaHoraInicio,
-                            end: fechaHoraFin
-                        };
-                        AbrirPopup();
-                    },
-                    /*dayClick: function (fechaHoraInicio, fechaHoraFin) {  // se activa cuando se da click sobre una cenlda que NO tenga evento creado
-                        turnoSeleccionado = {
-                            idTurno: 0,  // IdTirno es Identiry, sio idTurno es 0 es alta
-                            start: fechaHoraInicio,
-                            end: fechaHoraFin
-                        };
-                        AbrirPopup();
-                    },*/
-                    /*eventClick: function(a, b){
-                        alert('Dentro de eventCliock()');
-                        alert(a.start);
-                        alert(a.end);
-                    }*/
+                    defaultDate: new Date(),//'2017-03-31',
+                    editable: true,
+                    eventLimit: true, // allow "more" link when too many events
+                    events: [
+                        {
+                            title: 'All Day Event',
+                            start: '2023-08-04T09:00:00',
+                            end: '2023-08-04T10:00:00'
+                        },
+                        {
+                            title: 'Long Event',
+                            start: '2023-08-04T13:00:00',
+                            end: '2023-08-04T14:00:00'
+                        },
+                        {
+                            id: 999,
+                            title: 'Repeating Event',
+                            start: '2023-08-05T13:00:00',
+                            end: '2023-08-05T14:00:00'
+                        },
+                        {
+                            id: 999,
+                            title: 'Repeating Event',
+                            start: '2023-08-06T09:00:00',
+                            end: '2023-08-06T10:00:00'
+                        }
+                    ]
                 })
             }
             function AbrirPopup() {
-                alert('Dentro de la función AbrirPopup()');
+                $('#txtFechaHoraInicio').val(turnoSeleccionado.start.format('DD/MM/YYYY HH:mm'));
+                //$('#txtFechaHoraFin').val(turnoSeleccionado.end.format('DD/MM/YYYY HH:mm'));
+                if (turnoSeleccionado.idTurno === 0) {
+                    $('btnGuardar').show();
+                    $('btnEliminar').hide();
+                } else {
+                    $('btnGuardar').hide();
+                    $('btnEliminar').show();
+                }
+                $('#ModalTurno').modal('open');
             }
 
         });
